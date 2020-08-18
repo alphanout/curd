@@ -28,15 +28,17 @@ router
   //curl http://localhost:8080/api/courses
   /*
   curl http://localhost:8080/api/courses/1
-  curl --header "Content-Type: application/json" \--request POST \--data '{“Id” : “1234”,   "name": "maths",  "description": "This is mathematics course",  "availableSlots": 23}' \http://localhost:8080/api/courses
-  curl --header "" \--request POST \--data '{“Id” : “1234”,   "name": "maths",  "description": "This is mathematics course",  "availableSlots": 23}' \http://localhost:8080/api/courses
+  curl --header "Content-Type: application/json" \--request POST \--data '{"Id” : “1234”,   "name": "maths",  "description": "This is mathematics course",  "availableSlots": 23}' \http://localhost:8080/api/courses
+  curl \--request POST \--data '"Id” : “1234”,   "name": "maths",  "description": "This is mathematics course",  "availableSlots": 23' \http://localhost:8080/api/courses
+  // curl \--request POST \--data '{"id":1}' \http://localhost:8080/api/courses
   */
   .post(function (req, res) {
-    // var data = req.body;
-    // var courses = require("./courses.json");
-    // courses=courses.data;
-    // courses[courses.length] = data;
-    // res.send("{success: true}");
+    var t = req.body;
+    var data = JSON.parse(t);
+    var courses = require("./courses.json");
+    courses = courses.data;
+    courses[courses.length] = data;
+    res.send("{success: true}");
   })
 
   .get(function (req, res) {
