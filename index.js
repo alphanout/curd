@@ -14,6 +14,7 @@ var port = process.env.PORT || 8080;
 
 var router = express.Router();
 
+
 const authenticateJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
