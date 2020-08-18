@@ -1,17 +1,9 @@
 {
   "data": [
-    {
-      "id": 1,
-      "name": "Batman"
-    },
-    {
-      "id": 2,
-      "name": "Joker"
-    },
-    {
-      "id": 3,
-      "name": "Shepherd"
-    }
+    { "id": 1, "name": "Batman" },
+    { "id": 2, "name": "Joker" },
+    { "id": 3, "name": "Shepherd" },
+    { "id": 5, "name": "Atishay" }
   ],
   "error": null
 }

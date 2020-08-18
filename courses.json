@@ -2,15 +2,20 @@
   "data": [
     {
       "id": 1,
-      "name": "maths"
+      "name": "maths",
+      "description": "This is mathematics course",
+      "enrolledStudents": [{ "id": 1 }],
+      "available_slots": 1
     },
+    { "id": 2, "name": "english" },
+    { "id": 3, "name": "spanish" },
+    { "id": 4, "name": "cp" },
     {
-      "id": 2,
-      "name": "english"
-    },
-    {
-      "id": 3,
-      "name": "spanish"
+      "id": 7,
+      "name": "maths",
+      "description": "This is mathematics course",
+      "enrolledStudents": [],
+      "availableSlots": 23
     }
   ],
   "error": null
