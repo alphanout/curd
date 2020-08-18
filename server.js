@@ -1,18 +1,32 @@
 const express = require("express");
 const app = express();
 var bodyParser = require("body-parser");
+
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
+
+// var orm = require('generic-orm-libarry');
+// var user = orm("users").where({ email: 'test@test.com' });
 
 const accessTokenSecret = "skylyn";
+
+var corsOptions = {
+  origin: "http://localhost:8081"
+};
+
+app.use(cors(corsOptions));
+
 
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
 app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080;
 
 var router = express.Router();
+
 
 
 const authenticateJWT = (req, res, next) => {
@@ -34,16 +48,17 @@ const authenticateJWT = (req, res, next) => {
   }
 };
 
+
+
+app.use("/api", authenticateJWT, router);
+
 router.get("/", function (req, res) {
   res.json({
     message: "hooray! welcome to our api!"
   });
 });
 
-app.use("/api",authenticateJWT, router);
 
-app.listen(port);
-console.log("Working on port " + port);
 
 app.get("/", (req, res) => {
   res.send("Oh Hi There!");
@@ -137,7 +152,6 @@ router
 
 router
   .route("/courses/:courses_id")
-
   .get(function (req, res) {
     var courses = require("./courses.json");
     var ob = req.params.courses_id;
@@ -154,7 +168,6 @@ router
 
 router
   .route("/students")
-
   .post(function (req, res) {
     const fs = require("fs");
     var data = req.body;
@@ -169,7 +182,6 @@ router
     });
     res.send("{success: true}");
   })
-
   .get(function (req, res) {
     var students = require("./students.json");
     // console.log(courses);
@@ -178,7 +190,6 @@ router
 
 router
   .route("/courses/:courses_id/enroll")
-
   .post(function (req, res) {
     const fs = require("fs");
     var data = req.body.studentId;
@@ -207,7 +218,6 @@ router
 
 router
   .route("/courses/:courses_id/deregister")
-
   .post(function (req, res) {
     const fs = require("fs");
     var data = req.body.studentId;
@@ -233,4 +243,19 @@ router
     res.send("{success: true}");
   });
 
-// curl http://localhost:8080/api/courses
+
+// require("./app/routes/routes")(app);
+
+
+
+// curl http://localhost:8080/
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}.`);
+});
+
+// const db = require("./app/models");
+// db.sequelize.sync({
+//   force: true
+// }).then(() => {
+//   console.log("Drop and re-sync db.");
+// });

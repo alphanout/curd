@@ -2,20 +2,29 @@
   "name": "curd",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "nodejs",
+    "express",
+    "rest",
+    "api",
+    "sequelize",
+    "mysql"
+  ],
+  "author": "Atishay Jain",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "doraemon": "^0.2.1",
     "express": "^4.17.1",
     "jshint": "^2.12.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.5",
-    "mysql2": "^2.1.0"
+    "mysql2": "^2.1.0",
+    "sequelize": "^6.3.4"
   }
 }
