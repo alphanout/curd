@@ -9,8 +9,8 @@ acquire: maximum time, in milliseconds, that pool will try to get connection bef
 module.exports = {
     HOST: "localhost",
     USER: "root",
-    PASSWORD: "123456",
-    DB: "testdb",
+    PASSWORD: "Home@127",
+    DB: "curd",
     dialect: "mysql",
     pool: {
         max: 5,
