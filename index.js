@@ -40,7 +40,7 @@ router
     courses[courses.length] = data;
     res.send("{success: true}");
   })
-
+  
   .get(function (req, res) {
     var courses = require("./courses.json");
     // console.log(courses);
