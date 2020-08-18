@@ -1,0 +1,17 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "maths"
+    },
+    {
+      "id": 2,
+      "name": "english"
+    },
+    {
+      "id": 3,
+      "name": "spanish"
+    }
+  ],
+  "error": null
+}

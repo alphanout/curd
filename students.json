@@ -1,0 +1,17 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Batman"
+    },
+    {
+      "id": 2,
+      "name": "Joker"
+    },
+    {
+      "id": 3,
+      "name": "Shepherd"
+    }
+  ],
+  "error": null
+}
