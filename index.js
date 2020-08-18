@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 var bodyParser = require("body-parser");
+const jwt = require("jsonwebtoken");
+
+const accessTokenSecret = "Ananya";
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -22,14 +25,43 @@ app.get("/", (req, res) => {
   res.send("Oh Hi There!");
 });
 
+router.route("/login").post(function (req, res) {
+  var users = require('./users.json');
+  // Read username and password from request body
+  const { username, password } = req.body;
+
+  const user = users.forEach(element => {
+    if(element.username===username && element.password===password)
+      return true;
+  });
+  // Filter user from the users array by username and password
+  // const user = users.find((u) => {
+  //   return u.username === username && u.password === password;
+  // });
+
+  if (user) {
+    // Generate an access token
+    const accessToken = jwt.sign(
+      { username: users.username },
+      accessTokenSecret
+    );
+
+    res.json({
+      accessToken,
+    });
+  } else {
+    res.send("Username or password incorrect");
+  }
+
+});
+
 router
   .route("/courses")
   .post(function (req, res) {
     const fs = require("fs");
     var data = req.body;
     var courses = require("./courses.json");
-    if(!Number.isInteger(data.id))
-      return res.send("invalid id");
+    if (!Number.isInteger(data.id)) return res.send("invalid id");
     for (let i = 0; i < courses.data.length; i++) {
       if (courses.data[i].id == data.id) return res.send("course exist");
     }
