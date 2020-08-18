@@ -1,1 +1,8 @@
-[]
+[{
+    "username": "john",
+    "password": "password123admin"
+}, {
+    "username": "atishay",
+    "password": "1234",
+    "email": "atishay818@gmail.com"
+}]

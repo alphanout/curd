@@ -3,20 +3,43 @@ const app = express();
 var bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 
-const accessTokenSecret = "Ananya";
+const accessTokenSecret = "skylyn";
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080;
 
 var router = express.Router();
 
+const authenticateJWT = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (authHeader) {
+    const token = authHeader.split(' ')[1];
+
+    jwt.verify(token, accessTokenSecret, (err, user) => {
+      if (err) {
+        return res.sendStatus(403);
+      }
+
+      req.user = user;
+      next();
+    });
+  } else {
+    res.sendStatus(401);
+  }
+};
+
 router.get("/", function (req, res) {
-  res.json({ message: "hooray! welcome to our api!" });
+  res.json({
+    message: "hooray! welcome to our api!"
+  });
 });
 
-app.use("/api", router);
+app.use("/api",authenticateJWT, router);
 
 app.listen(port);
 console.log("Working on port " + port);
@@ -25,24 +48,24 @@ app.get("/", (req, res) => {
   res.send("Oh Hi There!");
 });
 
-router.route("/login").post(function (req, res) {
+app.post("/login", (req, res) => {
   var users = require('./users.json');
   // Read username and password from request body
-  const { username, password } = req.body;
+  const {
+    username,
+    password
+  } = req.body;
 
-  const user = users.forEach(element => {
-    if(element.username===username && element.password===password)
-      return true;
+  var user;
+  users.forEach(element => {
+    if (element.username === username && element.password === password)
+      user = true;
   });
-  // Filter user from the users array by username and password
-  // const user = users.find((u) => {
-  //   return u.username === username && u.password === password;
-  // });
-
   if (user) {
     // Generate an access token
-    const accessToken = jwt.sign(
-      { username: users.username },
+    const accessToken = jwt.sign({
+        username: users.username
+      },
       accessTokenSecret
     );
 
@@ -51,6 +74,38 @@ router.route("/login").post(function (req, res) {
     });
   } else {
     res.send("Username or password incorrect");
+  }
+
+});
+
+app.post("/signup", (req, res) => {
+  var users = require('./users.json');
+  const fs = require('fs');
+  const {
+    username,
+    password,
+    email
+  } = req.body;
+
+  var user;
+  users.forEach(element => {
+    if (element.username === username)
+      user = true;
+  });
+  if (user) {
+
+    res.send("user already exist");
+  } else {
+    users[users.length] = {
+      "username": username,
+      "password": password,
+      "email": email
+    };
+    fs.writeFile("./users.json", JSON.stringify(users), (err) => {
+      if (err) throw err;
+      console.log("Done writing");
+    });
+    res.sendStatus(200);
   }
 
 });
