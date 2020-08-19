@@ -38,7 +38,7 @@ module.exports = (app, jwt, accessTokenSecret) => {
             }
             courses.data[courses.data.length] = data;
 
-            fs.writeFile("../../courses.json", JSON.stringify(courses), (err) => {
+            fs.writeFile("./courses.json", JSON.stringify(courses), (err) => {
                 if (err) throw err;
                 console.log("Done writing");
             });
@@ -76,10 +76,13 @@ module.exports = (app, jwt, accessTokenSecret) => {
             data["id"] = courses.data.length;
             courses.data[courses.data.length] = data;
 
-            fs.writeFile("../../students.json", JSON.stringify(courses), (err) => {
-                if (err) throw err;
+            fs.writeFile("./students.json", JSON.stringify(courses), (err) => {
+                if (err) console.log(err);
                 console.log("Done writing");
             });
+
+            // tutorials.create(req,res);
+            console.log("done sql");
             res.send("{success: true}");
         })
         .get(function (req, res) {
@@ -109,7 +112,7 @@ module.exports = (app, jwt, accessTokenSecret) => {
             } else {
                 return res.send("no slots available");
             }
-            fs.writeFile("../../courses.json", JSON.stringify(courses), (err) => {
+            fs.writeFile("./courses.json", JSON.stringify(courses), (err) => {
                 if (err) throw err;
                 console.log("Done writing");
             });
@@ -136,7 +139,7 @@ module.exports = (app, jwt, accessTokenSecret) => {
             }
             c.available_slots = c.available_slots + 1;
 
-            fs.writeFile("../../courses.json", JSON.stringify(courses), (err) => {
+            fs.writeFile("./courses.json", JSON.stringify(courses), (err) => {
                 if (err) throw err;
                 console.log("Done writing");
             });
