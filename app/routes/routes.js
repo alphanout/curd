@@ -70,10 +70,12 @@ module.exports = (app, jwt, accessTokenSecret) => {
         .route("/students")
         .post(function (req, res) {
             const fs = require("fs");
-            var data = req.body;
+           // var data = req.body;
             if (typeof req.body.name != typeof "") return res.send("invalid input");
+            var data={};
             var courses = require("../../students.json");
             data["id"] = courses.data.length;
+            data["name"]=req.body.name;
             courses.data[courses.data.length] = data;
 
             fs.writeFile("../../students.json", JSON.stringify(courses), (err) => {
