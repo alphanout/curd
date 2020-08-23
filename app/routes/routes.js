@@ -1,12 +1,12 @@
 module.exports = (app, jwt, accessTokenSecret) => {
-    // const tutorials = require("../controllers/controller.js");
+    const tutorials = require("../controllers/controller.js");
     var router = require("express").Router();
     const authenticateJWT = (req, res, next) => {
         const authHeader = req.headers.authorization;
 
         if (authHeader) {
             const token = authHeader.split(' ')[1];
-
+            
             jwt.verify(token, accessTokenSecret, (err, user) => {
                 if (err) {
                     return res.sendStatus(403);
@@ -83,7 +83,7 @@ module.exports = (app, jwt, accessTokenSecret) => {
                 console.log("Done writing");
             });
 
-            // tutorials.create(req,res);
+            tutorials.create(req,res);
             console.log("done sql");
             res.send("{success: true}");
         })
