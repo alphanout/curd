@@ -1,5 +1,5 @@
 module.exports = (app, jwt, accessTokenSecret) => {
-    const tutorials = require("../controllers/controller.js");
+    // const tutorials = require("../controllers/controller.js");
     var router = require("express").Router();
     const authenticateJWT = (req, res, next) => {
         const authHeader = req.headers.authorization;
@@ -83,7 +83,7 @@ module.exports = (app, jwt, accessTokenSecret) => {
                 console.log("Done writing");
             });
 
-            tutorials.create(req,res);
+            // tutorials.create(req,res);
             console.log("done sql");
             res.send("{success: true}");
         })
