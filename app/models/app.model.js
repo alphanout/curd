@@ -1,26 +1,39 @@
 'user strict';
 var sql = require('../../db.js');
-
+var bcrypt = require('bcrypt');
+var User = require('./index').user;
+var BCRYPT_SALT_ROUNDS = 12;
 //Task object constructor
 var Task = function (task, accessToken) {
-    this.name = task.username;
+    this.first_name = task.first_name;
+    this.last_name = task.last_name;
     this.email = task.email;
+    this.username = task.username;
     this.password = task.password;
-    this.token = accessToken;
-    this.created_at = new Date();
 };
-Task.createTask = function (newTask, result) {
-    sql.query("INSERT INTO student set ?", newTask, function (err, res) {
+Task.addStudent = function (newTask, result) {
+    bcrypt
+        .hash(newTask.password, BCRYPT_SALT_ROUNDS)
+        .then(function (hashedPassword) {
+            User.create({
+                first_name: newTask.first_name,
+                last_name: newTask.last_name,
+                email: newTask.email,
+                username: newTask.username,
+                password: hashedPassword,
+            }).then((err) => {
+                console.log('user created in db');
+                if (err) {
+                    console.log("error: ", err);
+                    result(err, null);
+                } else {
+                    console.log(res.insertId);
+                    result(null, res.insertId);
+                }
+            });
+        });
+};
 
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-        } else {
-            console.log(res.insertId);
-            result(null, res.insertId);
-        }
-    });
-};
 Task.getTaskById = function (taskId, result) {
     sql.query("Select task from tasks where id = ? ", taskId, function (err, res) {
         if (err) {

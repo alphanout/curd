@@ -17,6 +17,7 @@
   "author": "Atishay Jain",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -29,5 +30,9 @@
     "mysql2": "^2.1.0",
     "nodemon": "^2.0.4",
     "sequelize": "^6.3.4"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "sequelize-cli": "^6.2.0"
   }
 }

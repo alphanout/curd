@@ -10,6 +10,6 @@ connection.connect(function (err) {
   if (err) throw err;
 });
 module.exports = connection;
-console.log("connection established");
+console.log("connection established with database");
 
 // connection.destroy();

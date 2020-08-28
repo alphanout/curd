@@ -1,11 +1,10 @@
 'use strict';
-
 var Task = require('../models/app.model.js');
 
 exports.list_all_tasks = function (req, res) {
     Task.getAllTask(function (err, task) {
-
-        console.log('controller')
+        
+        console.log('controller');
         if (err)
             res.send(err);
         console.log('res', task);
@@ -19,7 +18,7 @@ exports.create_a_task = function (req, res, accessToken) {
     var new_task = new Task(req.body, accessToken);
 
     //handles null error 
-    if (!new_task.name || !new_task.email || !new_task.password || !new_task.token) {
+    if (!new_task.first_name || !new_task.last_name|| !new_task.email || !new_task.password || !new_task.username) {
 
         res.status(400).send({
             error: true,
@@ -28,7 +27,7 @@ exports.create_a_task = function (req, res, accessToken) {
 
     } else {
 
-        Task.createTask(new_task, function (err, task) {
+        Task.addStudent(new_task, function (err, task) {
 
             if (err)
                 res.send(err);
