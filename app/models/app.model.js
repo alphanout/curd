@@ -33,6 +33,17 @@ Task.addStudent = function (newTask, result) {
             });
         });
 };
+Task.findUser = function (usernamef, result) {
+    User.findOne({
+        where: {
+            username: usernamef
+        }
+    }).then((err) => {
+        result(null, err);
+    }).catch((err) => {
+        result(err, null);
+    });
+};
 
 Task.getTaskById = function (taskId, result) {
     sql.query("Select task from tasks where id = ? ", taskId, function (err, res) {

@@ -25,8 +25,6 @@ app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080;
 
-// var router = express.Router();
-
 app.get("/", (req, res) => {
   res.send("Oh Hi There!");
 });
@@ -47,8 +45,8 @@ app.post("/login", (req, res) => {
   if (user) {
     // Generate an access token
     const accessToken = jwt.sign({
-      username: users.username
-    },
+        username: users.username
+      },
       accessTokenSecret
     );
 
@@ -62,62 +60,28 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/signup", (req, res) => {
-  // var users = require('./users.json');
-  // const fs = require('fs');
   const {
     username,
-    password,
-    email
   } = req.body;
 
   var user = false;
-  // users.forEach(element => {
-  //   if (element.username === username)
-  //     user = true;
-  // });
-  if (user) {
 
-    res.send("user already exist");
+  if (user) {
+    
+    return res.send("user already exist");
   } else {
-    // users[users.length] = {
-    //   "username": username,
-    //   "password": password,
-    //   "email": email
-    // };
     const accessToken = jwt.sign({
-      username: username
-    },
+        username: username
+      },
       accessTokenSecret
     );
-    cont.create_a_task(req,res,accessToken);
-    // res.json({
-    //   accessToken,
-    // });
-
-    // fs.writeFile("./users.json", JSON.stringify(users), (err) => {
-    //   if (err) throw err;
-    //   console.log("Done writing");
-    // });
-    // res.sendStatus(200);
+    cont.addUser(req, res, accessToken);
   }
-
 });
 
-
 require("./app/routes/routes")(app, jwt, accessTokenSecret);
-
-
 
 // curl http://localhost:8080/
 app.listen(port, () => {
   console.log(`Server is running on port ${port}.`);
 });
-
-// const db = require("./app/models");
-// db.sequelize
-//   .sync({
-//     force: true,
-//   })
-//   .then(() => {
-//     console.log("Drop and re-sync db.");
-//   });
