@@ -1,13 +1,10 @@
 const express = require("express");
 const app = express();
 var bodyParser = require("body-parser");
-
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const cont = require("./app/controllers/appController");
 const authcont = require("./app/controllers/auth.controller");
-// var orm = require('generic-orm-libarry');
-// var user = orm("users").where({ email: 'test@test.com' });
 
 const accessTokenSecret = "skylyn";
 
@@ -67,7 +64,7 @@ app.post("/signup", (req, res) => {
   var user = false;
 
   if (user) {
-    
+
     return res.send("user already exist");
   } else {
     const accessToken = jwt.sign({

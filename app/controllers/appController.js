@@ -3,7 +3,6 @@ var Task = require('../models/app.model.js');
 
 exports.list_all_tasks = function (req, res) {
     Task.getAllTask(function (err, task) {
-
         console.log('controller');
         if (err)
             res.send(err);
@@ -15,7 +14,7 @@ exports.list_all_tasks = function (req, res) {
 
 
 exports.addUser = function (req, res, accessToken) {
-    var new_task = new Task(req.body, accessToken);
+    var new_task = new Task(req.body);
 
     if (!new_task.first_name || !new_task.last_name || !new_task.email || !new_task.password || !new_task.username) {
 
@@ -31,11 +30,19 @@ exports.addUser = function (req, res, accessToken) {
                     error: "user name already exist"
                 });
             else
-                Task.addStudent(new_task, function (err, task) {
-                    if (err)
-                        res.send(err);
-                    else
-                        res.json(task.accessToken);
+                Task.findUserEmail(new_task.email, function (errrr, resu) {
+                    if (resu !== null)
+                        return res.status(400).json({
+                            error: "email already exist"
+                        });
+                    Task.addStudent(new_task, function (err, task) {
+                        if (task !== null)
+                            return res.status(200).json({
+                                message: "signup successful"
+                            });
+                        else
+                            return res.status(500).send(err);
+                    });
                 });
         });
     }

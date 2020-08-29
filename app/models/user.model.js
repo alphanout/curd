@@ -45,6 +45,8 @@ module.exports = (sequelize, type) => {
             autoIncrement: true
         },
     });
+    User.hasMany(SE);
+    Course.hasMany(SE);
     SE.belongsTo(User);
     SE.belongsTo(Course);
     return {
