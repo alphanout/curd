@@ -1,12 +1,9 @@
 const express = require("express");
 const app = express();
 var bodyParser = require("body-parser");
-const jwt = require("jsonwebtoken");
+
 const cors = require("cors");
 const cont = require("./app/controllers/appController");
-const authcont = require("./app/controllers/auth.controller");
-
-const accessTokenSecret = "skylyn";
 
 var corsOptions = {
   origin: "http://localhost:8081"
@@ -27,58 +24,15 @@ app.get("/", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  var users = require('./users.json');
-  // Read username and password from request body
-  const {
-    username,
-    password
-  } = req.body;
-
-  var user;
-  users.forEach(element => {
-    if (element.username === username && element.password === password)
-      user = true;
-  });
-  if (user) {
-    // Generate an access token
-    const accessToken = jwt.sign({
-        username: users.username
-      },
-      accessTokenSecret
-    );
-
-    res.json({
-      accessToken,
-    });
-  } else {
-    res.send("Username or password incorrect");
-  }
-
+  cont.login(req, res);
 });
 
 app.post("/signup", (req, res) => {
-  const {
-    username,
-  } = req.body;
-
-  var user = false;
-
-  if (user) {
-
-    return res.send("user already exist");
-  } else {
-    const accessToken = jwt.sign({
-        username: username
-      },
-      accessTokenSecret
-    );
-    cont.addUser(req, res, accessToken);
-  }
+  cont.addUser(req, res);
 });
 
-require("./app/routes/routes")(app, jwt, accessTokenSecret);
+require("./app/routes/routes")(app);
 
-// curl http://localhost:8080/
 app.listen(port, () => {
   console.log(`Server is running on port ${port}.`);
 });

@@ -6,10 +6,21 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true
         },
-        first_name: type.STRING,
-        last_name: type.STRING,
-        email: type.STRING,
+        first_name: {
+            type: type.STRING,
+            allowNull: false
+        },
+        last_name: {
+            type: type.STRING,
+            allowNull: false
+        },
+        email: {
+            unique: true,
+            type: type.STRING,
+            allowNull: false
+        },
         username: {
+            unique: true,
             type: type.STRING,
             allowNull: false
         },
@@ -18,7 +29,7 @@ module.exports = (sequelize, type) => {
             allowNull: false
         }
     });
-    var Course = sequelize.define("student", {
+    var Course = sequelize.define("course", {
         id: {
             type: type.INTEGER,
             primaryKey: true,
@@ -26,6 +37,7 @@ module.exports = (sequelize, type) => {
         },
         name: {
             type: type.STRING,
+            unique: true,
             allowNull: false
         },
         description: {
@@ -54,5 +66,4 @@ module.exports = (sequelize, type) => {
         course: Course,
         student_enrolled: SE
     };
-
 };
