@@ -139,15 +139,12 @@ Task.enroll = function (courseId, Userid, result) {
     });
 };
 
-Task.getenrolled = function (courseId, result) {
-    student_enrolled.findAll({
+Task.getenrolled = function (courseId) {
+    return student_enrolled.findAll({
         where: {
             courseId: courseId
-        }
-    }).then((usr) => {
-        result(null, usr);
-    }).catch((err) => {
-        result(err, null);
+        },
+        attributes: [`userId`]
     });
 };
 

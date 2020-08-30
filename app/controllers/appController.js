@@ -92,29 +92,52 @@ exports.getUsers = function (req, res) {
 };
 
 exports.getCourses = function (req, res) {
-    Task.getAllCourses(function (err, result) {
+    Task.getAllCourses(async function (err, result) {
         if (err !== null) return res.status(500).json({
             error: "Internal db error"
         });
-        console.log(`request all user ${result}`);
+        var courserow = [];
+        for (let i = 0; i < result.length; i++) {
+            const element = result[i];
+            var enrollsid = [];
+            enrollsid = await Task.getenrolled(element.id);
+            courserow.push({
+                id: element.id,
+                name: element.name,
+                description: element.description,
+                enrolledStudents: enrollsid,
+                available_slots: element.available_slots
+            });
+        }
+        console.log(`request all user ${result} sent- ${courserow}`);
         return res.status(200).send({
-            Courses: result,
+            Courses: courserow,
             success: true
         });
     });
 };
 
 exports.getCourseById = function (req, res) {
-    Task.findCourseById(+req.params.courses_id, function (err, result) {
+    Task.findCourseById(+req.params.courses_id, async function (err, result) {
         if (err !== null) return res.status(500).json({
             error: "Internal db error"
         });
         if (result === null) return res.status(402).json({
             message: "Course not found"
         });
-        console.log(`request all user ${result}`);
+        var courserow;
+        var enrollsid = [];
+        enrollsid = await Task.getenrolled(result.id);
+        courserow = {
+            id: result.id,
+            name: result.name,
+            description: result.description,
+            enrolledStudents: enrollsid,
+            available_slots: result.available_slots
+        };
+        console.log(`request all user ${courserow}`);
         return res.status(200).send({
-            Courses: result,
+            Courses: courserow,
             success: true
         });
     });
